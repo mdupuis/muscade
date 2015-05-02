@@ -1,0 +1,7 @@
+body, .extra-top-padding {
+    padding-top: 40px;
+}
+
+.no-margin {
+    margin: 0;
+}
