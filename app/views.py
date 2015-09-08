@@ -49,7 +49,7 @@ def edit_recipe(recipe_id=None):
             form.populate_obj(entry)
             entry.save()
             flash('Modifications sauvegardées', 'success')
-            return redirect(url_for('.recipe', recipe_id=entry.id))
+            return redirect(url_for('view_recipe', recipe_id=entry.id))
     else:
         # print the form
         form = RecipeForm(obj=entry)
