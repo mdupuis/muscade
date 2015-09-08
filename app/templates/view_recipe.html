@@ -31,7 +31,14 @@
                     <td>{{ recipe.preparation_time }} mins</td>
                     <td>{{ recipe.cooking_time }} mins</td>
                     <td>{{ recipe.portion }}</td>
-                    <td>{{ recipe.rating /2 }}</td>
+                    <td>
+                        {% for i in range(0, recipe.rating//2) %}
+                            <span class="star-icon full">☆</span>
+                        {% endfor %}
+                        {% if recipe.rating % 2 %}
+                            <span class="star-icon half">☆</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 </tbody>
             </table>
