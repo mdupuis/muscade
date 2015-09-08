@@ -17,15 +17,29 @@ def page_not_found(e):
 def index():
     recipes = Recipe.select()
     return render_template("list.html",
-                           title='Home',
+                           title='Accueil',
                            recipes=recipes)
 
 
 @app.route('/category/<int:category_id>')
 def by_category(category_id):
     recipes = Recipe.select().where(Recipe.category == category_id)
+    category_names = [x[1] for x in categories if x[0] == category_id]
+
     return render_template("list.html",
-                           title='Home',
+                           title='Catégories',
+                           header_suffix=category_names[0] if len(category_names) else None,
+                           recipes=recipes)
+
+@app.route('/search')
+def search():
+    query = request.args.get('s')
+    recipes = Recipe.select().where(Recipe.name ** ('%%%s%%' % query) |
+                                    Recipe.ingredients ** ('%%%s%%' % query) |
+                                    Recipe.instructions ** ('%%%s%%' % query))
+    return render_template("list.html",
+                           title='Recherche',
+                           header_suffix=query,
                            recipes=recipes)
 
 
