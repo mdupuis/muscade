@@ -6,6 +6,9 @@ body, .extra-top-padding {
     margin: 0;
 }
 
+table.table {
+    margin-bottom: 0;
+}
 
 /* STARS */
 .star-icon {
