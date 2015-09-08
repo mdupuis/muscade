@@ -33,8 +33,15 @@ class Recipe(BaseModel):
 
 RecipeForm = model_form(Recipe,
                         exclude=['add_date', 'update_date', 'usage_count'],
-                        field_args={"category": {"choices": categories}})
+                        field_args={
+                            "name" : {"label" : "Nom"},
+                            "ingredients" : {"label" : "Ingrédients"},
+                            "preparation_time" : {"label" : "Temps de préparation"},
+                            "cooking_time" : {"label" : "Temps de cuisson"},
+                            "category": {"choices": categories,
+                                         "label": "Catégorie"},
+                            "rating": {"validators": [],
+                                       "label": "Note"}})
 
 
 # db.create_tables([Recipe])
-
