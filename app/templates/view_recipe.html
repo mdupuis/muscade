@@ -7,8 +7,16 @@
         </div>
     </div>
 
-    <h1>{{ recipe.name }}</h1>
-    <ol class="breadcrumb hidden-print">
+    <h1 style="float:left;">{{ recipe.name }}</h1>
+    <div style="padding-top:25px">&nbsp;
+    {% for i in range(0, recipe.rating//2) %}
+    <span class="star-icon full">☆</span>
+    {% endfor %}
+    {% if recipe.rating % 2 %}
+    <span class="star-icon half">☆</span>
+    {% endif %}
+    </div>
+    <ol class="breadcrumb hidden-print" style="clear:both;">
         <li><a href="/">Toutes</a></li>
         <li>{{ recipe.category_name() }}</li>
         <li>{{ recipe.name }}</li>
@@ -24,21 +32,12 @@
                     <th>Préparation</th>
                     <th>Cuisson</th>
                     <th>Portions</th>
-                    <th>Note</th>
                 </tr>
                 <tr>
                     <td>{{ recipe.source }}</td>
                     <td>{{ recipe.preparation_time }} mins</td>
                     <td>{{ recipe.cooking_time }} mins</td>
                     <td>{{ recipe.portion }}</td>
-                    <td>
-                        {% for i in range(0, recipe.rating//2) %}
-                            <span class="star-icon full">☆</span>
-                        {% endfor %}
-                        {% if recipe.rating % 2 %}
-                            <span class="star-icon half">☆</span>
-                        {% endif %}
-                    </td>
                 </tr>
                 </tbody>
             </table>
