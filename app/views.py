@@ -3,6 +3,9 @@ from flask import render_template, request, flash, redirect, url_for, abort
 from app import app
 from .models import *
 
+@app.context_processor
+def inject_categories():
+    return dict(categories=categories)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -13,6 +16,14 @@ def page_not_found(e):
 @app.route('/index')
 def index():
     recipes = Recipe.select()
+    return render_template("list.html",
+                           title='Home',
+                           recipes=recipes)
+
+
+@app.route('/category/<int:category_id>')
+def by_category(category_id):
+    recipes = Recipe.select().where(Recipe.category == category_id)
     return render_template("list.html",
                            title='Home',
                            recipes=recipes)

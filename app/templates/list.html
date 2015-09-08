@@ -3,7 +3,7 @@
 <div class='page-header'>
     <div class='btn-toolbar pull-right'>
         <div class='btn-group'>
-            <a href="add/" class='btn btn-success'>Ajouter</a>
+            <a href="{{ url_for('edit_recipe') }}" class='btn btn-success'>Ajouter</a>
         </div>
     </div>
     <h1>Liste des recettes</h1>
@@ -19,7 +19,7 @@
     <tbody>
     {% for recipe in recipes %}
     <tr>
-        <td><a href="{{ recipe.id }}/">{{ recipe.name }}</a></td>
+        <td><a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">{{ recipe.name }}</a></td>
         <td>{{ recipe.category_name() }}</td>
 
         <td>
