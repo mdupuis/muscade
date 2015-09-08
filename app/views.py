@@ -1,3 +1,4 @@
+# coding=utf-8
 from flask import render_template, request, flash, redirect, url_for, abort
 from app import app
 from .models import *
