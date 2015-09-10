@@ -1,31 +1,33 @@
-{% extends "base.html" %}
+{% extends "base_nav.html" %}
 {% block content %}
-<div class='page-header'>
-    {% if entry.name %}
-    <h2>Editer '{{ entry.name }}'</h2>
-    {% else %}
-    <h2>Ajouter une recette</h2>
-    {% endif %}
-</div>
-
-{% if form.errors %}
-<div class="alert alert-danger">
-    <ul class="errors">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-        {% for error in field_errors %}
-        <li>{{ form[field_name].label }}: {{ error }}</li>
-        {% endfor %}
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-
-<form method="post" action="">
-    {% for field in form %}
-    <div class="form-group">
-        {{ field.label }} {{ field(class_ = "form-control")}}
+<div class="container">
+    <div class='page-header'>
+        {% if entry.name %}
+        <h2>Editer '{{ entry.name }}'</h2>
+        {% else %}
+        <h2>Ajouter une recette</h2>
+        {% endif %}
     </div>
-    {% endfor %}
-    <p><input type="submit" class="btn btn-primary" value="Soumettre"></p>
-</form>
+
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+            <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post" action="">
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label }} {{ field(class_ = "form-control")}}
+        </div>
+        {% endfor %}
+        <p><input type="submit" class="btn btn-primary" value="Soumettre"></p>
+    </form>
+</div>
 {% endblock %}

@@ -1,5 +1,9 @@
-body, .extra-top-padding {
-    padding-top: 40px;
+.extra-top-padding {
+    padding-top: 60px;
+}
+
+.page-header{
+    padding-top:10px;
 }
 
 .no-margin {
@@ -13,7 +17,7 @@ table.table {
 /* STARS */
 .star-icon {
     color: #ddd;
-    font-size: 1.5em;
+    font-size: 1.3em;
     position: relative;
 }
 .star-icon.full:before {
@@ -32,11 +36,6 @@ table.table {
     width: 50%;
     overflow: hidden;
 }
-@-moz-document url-prefix() { /* Firefox Hack :( */
-  .star-icon {
-    font-size: 50px;
-    line-height: 34px;
-  }
-}
+
 
 /* END STARS */

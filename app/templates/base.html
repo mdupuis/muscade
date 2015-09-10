@@ -10,8 +10,6 @@
     <title>Muscade</title>
     {% endif %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}" media="print">
 
     <!-- Bootstrap Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -20,7 +18,11 @@
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css"
-          href="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
+    href="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}" media="print">
+    {% block extra_css %} {% endblock %}
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -35,56 +37,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 </head>
-<body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Muscade</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <form class="navbar-form navbar-right" role="search" action="{{ url_for('search') }}">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="s" placeholder="Recherche">
-                </div>
-                <button type="submit" class="btn btn-default">Chercher</button>
-            </form>
-            <ul class="nav navbar-nav">
-                <li><a href="/">Liste</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Catégories<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        {% for category_tuple in categories %}
-                            <li><a href="{{ url_for('by_category', category_id=category_tuple[0]) }}">{{ category_tuple[1] }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
-    </div>
-</nav>
-
-<div class="container">
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{ category }} extra-top-padding">
-        <a class="close" data-dismiss="alert">×</a>
-        {{ message }}
-    </div>
-    {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-
-    {% block content %}{% endblock %}
+{% block nav %}{% endblock %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }} extra-top-padding">
+    <a class="close" data-dismiss="alert">×</a>
+    {{ message }}
 </div>
-</body>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+{% block content %}
+{% endblock %}
+
 </html>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/full_screen.css') }}">
+{% endblock %}
+{% block content %}
+<div class='btn-toolbar pull-right'>
+    <div class='btn-group'>
+        <a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}" class='btn btn-primary hidden-print'><span class="glyphicon glyphicon-resize-small"></span></a>
+    </div>
+</div>
+<div class="page-header">
+    <h1 style="float:left;">{{ recipe.name }}</h1>
+</div> <!-- header -->
+
+<div class="row" style="clear:both;">
+    <div class="col-sm-5">
+        <ul class="list-group">
+            <li class="list-group-item active"><h4 class="no-margin">Ingrédients</h4></li>
+            {% for ingredient in recipe.ingredients.split("\n") %}
+            <li class="list-group-item">{{ ingredient }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-sm-7">
+        <ul class="list-group">
+            <li class="list-group-item active"><h4 class="no-margin">Instructions</h4></li>
+            {% for instruction in recipe.instructions.split("\n") %}
+            <li class="list-group-item">{{ instruction }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}

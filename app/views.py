@@ -55,6 +55,18 @@ def view_recipe(recipe_id):
     )
 
 
+@app.route('/<int:recipe_id>/fs', methods=['GET', 'POST'])
+def view_recipe_fs(recipe_id):
+    recipe = None
+    try:
+        recipe = Recipe.select().where(Recipe.id == recipe_id).get()
+    except Recipe.DoesNotExist:
+        abort(404)
+    return render_template("view_recipe_fs.html",
+                           recipe=recipe,
+    )
+
+
 @app.route('/<int:recipe_id>/edit/', methods=['GET', 'POST'])
 @app.route('/add/', methods=['GET', 'POST'])
 def edit_recipe(recipe_id=None):
