@@ -66,10 +66,14 @@ def search():
     recipes = Recipe.select().where(Recipe.name ** ('%%%s%%' % query) |
                                     Recipe.ingredients ** ('%%%s%%' % query) |
                                     Recipe.instructions ** ('%%%s%%' % query))
-    return render_template("list.html",
-                           title='Recherche',
-                           header_suffix=query,
-                           recipes=recipes)
+    if (recipes.count() == 1):
+        return  render_template("view_recipe.html",
+                                recipe=recipes[0])
+    else:
+        return render_template("list.html",
+                               title='Recherche',
+                               header_suffix=query,
+                               recipes=recipes)
 
 
 @app.route('/<int:recipe_id>/', methods=['GET', 'POST'])
