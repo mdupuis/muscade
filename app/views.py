@@ -13,11 +13,28 @@ def page_not_found(e):
 
 
 @app.route('/')
-@app.route('/index')
-def index():
+def home():
+    categories_recipes = Recipe.select(Recipe.category, fn.COUNT(Recipe.id).alias('count')).group_by(Recipe.category)
+    count_by_categories = {r.category: r.count for r in categories_recipes}
+
+    source_recipes = Recipe.select(Recipe.source, fn.COUNT(Recipe.id).alias('count')).group_by(Recipe.source).order_by(fn.COUNT(Recipe.id).desc()).limit(5)
+
+    best_recipes = Recipe.select().order_by(Recipe.rating.desc()).limit(5)
+
+    return render_template("home.html",
+                           title='Accueil',
+                           categories_values=count_by_categories,
+                           source_recipes=source_recipes,
+                           best_recipes=best_recipes)
+
+
+@app.route('/list')
+def list():
     recipes = Recipe.select()
     return render_template("list.html",
-                           title='Accueil',
+                           title='Liste',
+                           show_source=True,
+                           show_category=True,
                            recipes=recipes)
 
 
@@ -29,6 +46,18 @@ def by_category(category_id):
     return render_template("list.html",
                            title='Catégories',
                            header_suffix=category_names[0] if len(category_names) else None,
+                           show_source=True,
+                           recipes=recipes)
+
+
+@app.route('/source/<name>')
+def by_source(name):
+    recipes = Recipe.select().where(Recipe.source == name)
+
+    return render_template("list.html",
+                           title='Catégories',
+                           header_suffix=name,
+                           show_category=True,
                            recipes=recipes)
 
 @app.route('/search')

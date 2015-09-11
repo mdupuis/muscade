@@ -1,0 +1,45 @@
+{% extends "base_nav.html" %}
+{% block content %}
+<div class="container">
+    <div class='page-header'>
+        <div class='btn-toolbar pull-right' style="margin-top:30px;">
+            <div class='btn-group'>
+                <a href="{{ url_for('edit_recipe') }}" class='btn btn-success'><span class="glyphicon glyphicon-plus-sign"></span></a>
+            </div>
+        </div>
+        <h1>Accueil</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <ul class="list-group">
+                <li class="list-group-item active"><h4 class="no-margin">Catégories</h4></li>
+                {% for category_tuple in categories %}
+                <li class="list-group-item"><a href="{{ url_for('by_category', category_id=category_tuple[0]) }}">
+                    {{ category_tuple[1] }} ({{ categories_values.get(category_tuple[0],0) }})</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <ul class="list-group">
+                <li class="list-group-item active"><h4 class="no-margin">Sources</h4></li>
+                {% for source in source_recipes %}
+                <li class="list-group-item"><a href="{{ url_for('by_source', name=source.source) }}">
+                    {{ source.source }} ({{ source.count }})</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <ul class="list-group">
+                <li class="list-group-item active"><h4 class="no-margin">Meilleures</h4></li>
+                {% for best in best_recipes %}
+                <li class="list-group-item"><a href="{{ url_for('view_recipe', recipe_id=best.id) }}">
+                    {{ best.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

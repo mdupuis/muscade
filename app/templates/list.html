@@ -7,13 +7,14 @@
                 <a href="{{ url_for('edit_recipe') }}" class='btn btn-success'><span class="glyphicon glyphicon-plus-sign"></span></a>
             </div>
         </div>
-        <h1>Liste des recettes {% if header_suffix %} - {{ header_suffix }} {% endif %}</h1>
+        <h1>{% if header_suffix %} {{ header_suffix }} {% else %} Liste des recettes {% endif %}</h1>
     </div>
     <table id="table_list" class="table">
         <thead>
         <tr>
             <th>Nom</th>
-            <th>Catégorie</th>
+            {% if show_category %}<th>Catégorie</th> {% endif %}
+            {% if show_source %}<th>Source</th> {% endif %}
             <th>Note</th>
         </tr>
         </thead>
@@ -21,8 +22,8 @@
         {% for recipe in recipes %}
         <tr>
             <td><a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">{{ recipe.name }}</a></td>
-            <td>{{ recipe.category_name() }}</td>
-
+            {% if show_category %}<td>{{ recipe.category_name() }}</td> {% endif %}
+            {% if show_source %}<td>{{ recipe.source }}</td> {% endif %}
             <td>
                 <span style="white-space: nowrap;">
                 {% for i in range(0, recipe.rating//2) %}
@@ -41,7 +42,7 @@
     <script>
             $(document).ready( function () {
                 $('#table_list').DataTable( {
-                    "dom" : 'itp',
+                    "dom" : 'ftp',
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/French.json"
                     }

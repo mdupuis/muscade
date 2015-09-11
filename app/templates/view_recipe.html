@@ -21,8 +21,8 @@
         {% endif %}
         </div>
         <ol class="breadcrumb hidden-print" style="clear:both;">
-            <li><a href="/">Toutes</a></li>
-            <li>{{ recipe.category_name() }}</li>
+            <li><a href="{{ url_for('list') }}">Toutes</a></li>
+            <li><a href="{{ url_for('by_category', category_id=recipe.category) }}">{{ recipe.category_name() }}</a></li>
             <li>{{ recipe.name }}</li>
         </ol>
 

@@ -3,7 +3,7 @@ from app import db
 from wtfpeewee.orm import model_form
 from datetime import date
 
-categories = [(0, "Entrées"), (1, "Repas principaux"), (2, "Desserts"), (3, "Accompagnements")]
+categories = [(0, "Entrées"), (1, "Repas principaux"), (2, "Desserts"), (3, "Accompagnements"), (4, "Autres")]
 
 
 class BaseModel(Model):
