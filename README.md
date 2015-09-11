@@ -1,6 +1,6 @@
 # Muscade
 
-Muscade is a flask-webapp for managing recipes.
+Muscade is a python3 flask-webapp for managing recipes.
 
 ## Features:
 * Add/modify/delete/view recipes
@@ -15,7 +15,7 @@ Muscade is a flask-webapp for managing recipes.
 
 # How to run:
 * Clone the repo
-* Install the requirements
+* Install the requirements (pip3 install -r requirements.txt)
 * Run the run.py
 
 ## Under the hood:
