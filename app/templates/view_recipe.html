@@ -12,7 +12,7 @@
         </div>
 
         <h1 style="float:left;">{{ recipe.name }}</h1>
-        <div style="padding-top:30px; white-space: nowrap;">&nbsp;
+        <div style="padding-top:30px; white-space: nowrap;" class="stars">&nbsp;
         {% for i in range(0, recipe.rating//2) %}
         <span class="star-icon full">☆</span>
         {% endfor %}
@@ -29,7 +29,7 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <table class="table">
+                <table class="table" id="summary">
                     <tbody>
                     <tr>
                         <th>Source</th>
@@ -51,7 +51,7 @@
 
     <div class="row">
         <div class="col-sm-5">
-            <ul class="list-group">
+            <ul class="list-group ingredients">
                 <li class="list-group-item active"><h4 class="no-margin">Ingrédients</h4></li>
                 {% for ingredient in recipe.ingredients.split("\n") %}
                 <li class="list-group-item">{{ ingredient }}</li>
@@ -59,12 +59,12 @@
             </ul>
         </div>
         <div class="col-sm-7">
-            <ul class="list-group">
+            <ol class="list-group steps">
                 <li class="list-group-item active"><h4 class="no-margin">Instructions</h4></li>
                 {% for instruction in recipe.instructions.split("\n") %}
                 <li class="list-group-item">{{ instruction }}</li>
                 {% endfor %}
-            </ul>
+            </ol>
         </div>
     </div>
 </div>
