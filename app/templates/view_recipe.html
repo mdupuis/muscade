@@ -1,17 +1,30 @@
-{% extends "base_nav.html" %}
 {% block content %}
-<div class="container">
+<div class="container" id="recipe{{ recipe.id }}">
     <div class="page-header">
         <div class='btn-toolbar pull-right' style="margin-top:30px;">
+            {% if multiple %}
+            <div class='btn-group'>
+                <a href="#{{ recipe.id}}" onclick="getElementById('body').insertBefore(nextDivSibling(getElementById('recipe{{ recipe.id }}')), getElementById('recipe{{ recipe.id }}'));" class='btn btn-primary hidden-print'><span class="glyphicon glyphicon-arrow-down"></span></a>
+            </div>
+            <div class='btn-group'>
+                <a href="#{{ recipe.id}}" onclick="getElementById('body').insertBefore(getElementById('recipe{{ recipe.id }}'), previousDivSibling(getElementById('recipe{{ recipe.id }}')));" class='btn btn-primary hidden-print'><span class="glyphicon glyphicon-arrow-up"></span></a>
+            </div>
+            <div class='btn-group'>
+                <a href="#{{ recipe.id}}" onclick="getElementById('body').removeChild(getElementById('recipe{{ recipe.id }}'));" class='btn btn-primary hidden-print'><span class="glyphicon glyphicon-remove-sign"></span></a>
+            </div>
+            <div class='btn-group'>
+                &nbsp;
+            </div>
+            {% endif %}
             <div class='btn-group'>
                 <a href="/{{ recipe.id}}/edit/" class='btn btn-primary hidden-print'><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
             <div class='btn-group'>
-                <a href="{{ url_for('view_recipe_fs', recipe_id=recipe.id)}}" class='btn btn-primary hidden-print'><span class="glyphicon glyphicon-resize-full"></span></a>
+                <a href="{{ url_for('view_recipe_fs', recipe_id=recipe.id)}}" class='btn btn-primary hidden-print'><span class="glyphicon glyphicon-fullscreen"></span></a>
             </div>
         </div>
 
-        <h1 style="float:left;">{{ recipe.name }}</h1>
+        <h1 style="float:left;" name="{{ recipe.id }}">{{ recipe.name }}</h1>
         <div style="padding-top:30px; white-space: nowrap;" class="stars">&nbsp;
         {% for i in range(0, recipe.rating//2) %}
         <span class="star-icon full">☆</span>

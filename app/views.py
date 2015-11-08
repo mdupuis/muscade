@@ -35,6 +35,7 @@ def list():
                            title='Liste',
                            show_source=True,
                            show_category=True,
+                           ids=" ".join([str(recipe.id) for recipe in recipes]),
                            recipes=recipes)
 
 
@@ -47,6 +48,7 @@ def by_category(category_id):
                            title='Catégories',
                            header_suffix=category_names[0] if len(category_names) else None,
                            show_source=True,
+                           ids=" ".join([str(recipe.id) for recipe in recipes]),
                            recipes=recipes)
 
 
@@ -57,6 +59,7 @@ def by_source(name):
     return render_template("list.html",
                            title='Catégories',
                            header_suffix=name,
+                           ids=" ".join([str(recipe.id) for recipe in recipes]),
                            show_category=True,
                            recipes=recipes)
 
@@ -67,12 +70,13 @@ def search():
                                     Recipe.ingredients ** ('%%%s%%' % query) |
                                     Recipe.instructions ** ('%%%s%%' % query))
     if (recipes.count() == 1):
-        return  render_template("view_recipe.html",
+        return render_template("view_recipe_page.html",
                                 recipe=recipes[0])
     else:
         return render_template("list.html",
                                title='Recherche',
                                header_suffix=query,
+                               ids=" ".join([str(recipe.id) for recipe in recipes]),
                                recipes=recipes)
 
 
@@ -83,7 +87,7 @@ def view_recipe(recipe_id):
         recipe = Recipe.select().where(Recipe.id == recipe_id).get()
     except Recipe.DoesNotExist:
         abort(404)
-    return render_template("view_recipe.html",
+    return render_template("view_recipe_page.html",
                            recipe=recipe,
     )
 
@@ -99,6 +103,14 @@ def view_recipe_fs(recipe_id):
                            recipe=recipe,
     )
 
+@app.route('/multiple/<ids>', methods=['GET', 'POST'])
+def view_multiple(ids):
+    id_list = ids.split()
+    recipes = Recipe.select().where(Recipe.id << id_list)
+    response = render_template("base_nav.html")
+    for recipe in recipes:
+        response += render_template("view_recipe.html", recipe=recipe, multiple=True)
+    return response
 
 @app.route('/<int:recipe_id>/edit/', methods=['GET', 'POST'])
 @app.route('/add/', methods=['GET', 'POST'])
