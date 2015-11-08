@@ -1,6 +1,9 @@
 # coding=utf-8
+from app.export import export_to_txt
 from flask import render_template, request, flash, redirect, url_for, abort
 from app import app
+from flask import Response
+from flask import make_response
 from .models import *
 
 @app.context_processor
@@ -110,6 +113,15 @@ def view_multiple(ids):
     response = render_template("base_nav.html")
     for recipe in recipes:
         response += render_template("view_recipe.html", recipe=recipe, multiple=True)
+    return response
+
+@app.route('/export/<ids>', methods=['GET', 'POST'])
+def export(ids):
+    id_list = ids.split()
+    recipes = Recipe.select().where(Recipe.id << id_list)
+    response = make_response(export_to_txt(recipes))
+    response.headers['Content-Type'] = 'text/text'
+    response.headers['Content-Disposition'] = 'attachment; filename=export.txt'
     return response
 
 @app.route('/<int:recipe_id>/edit/', methods=['GET', 'POST'])
