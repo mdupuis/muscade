@@ -1,5 +1,5 @@
 # coding=utf-8
-from app.export import export_to_txt
+from app.export import export_to_txt, import_from_txt
 from flask import render_template, request, flash, redirect, url_for, abort
 from app import app
 from flask import Response
@@ -120,9 +120,29 @@ def export(ids):
     id_list = ids.split()
     recipes = Recipe.select().where(Recipe.id << id_list)
     response = make_response(export_to_txt(recipes))
-    response.headers['Content-Type'] = 'text/text'
+    response.headers['Content-Type'] = 'text/plain'
     response.headers['Content-Disposition'] = 'attachment; filename=export.txt'
     return response
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+
+        if file:
+            recipes = import_from_txt(file)
+            return render_template("list.html",
+                                   title="Résultat de l'importation",
+                                   ids=" ".join([str(recipe.id) for recipe in recipes]),
+                                   recipes=recipes)
+    else:
+        return render_template("base_nav.html") + """<br/><br/><br/><br/>
+            <form action="/upload" method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+"""
+
 
 @app.route('/<int:recipe_id>/edit/', methods=['GET', 'POST'])
 @app.route('/add/', methods=['GET', 'POST'])
