@@ -1,5 +1,5 @@
 from enum import Enum
-import tempfile
+
 from app.models import Recipe
 
 
@@ -8,6 +8,7 @@ class ParserState(Enum):
     category = 1
     ingredients = 2
     instructions = 3
+
 
 def export_to_txt(recipes):
     return_char = "\r\n"

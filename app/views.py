@@ -1,14 +1,19 @@
 # coding=utf-8
-from app.export import export_to_txt, import_from_txt
+
 from flask import render_template, request, flash, redirect, url_for, abort
-from app import app
-from flask import Response
 from flask import make_response
-from .models import *
+
+from peewee import fn
+
+from . import app
+from .export import export_to_txt, import_from_txt
+from .models import categories, Recipe
+
 
 @app.context_processor
 def inject_categories():
     return dict(categories=categories)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -66,6 +71,7 @@ def by_source(name):
                            show_category=True,
                            recipes=recipes)
 
+
 @app.route('/search')
 def search():
     query = request.args.get('s')
@@ -74,7 +80,7 @@ def search():
                                     Recipe.instructions ** ('%%%s%%' % query))
     if (recipes.count() == 1):
         return render_template("view_recipe_page.html",
-                                recipe=recipes[0])
+                               recipe=recipes[0])
     else:
         return render_template("list.html",
                                title='Recherche',
@@ -91,8 +97,7 @@ def view_recipe(recipe_id):
     except Recipe.DoesNotExist:
         abort(404)
     return render_template("view_recipe_page.html",
-                           recipe=recipe,
-    )
+                           recipe=recipe)
 
 
 @app.route('/<int:recipe_id>/fs', methods=['GET', 'POST'])
@@ -103,8 +108,8 @@ def view_recipe_fs(recipe_id):
     except Recipe.DoesNotExist:
         abort(404)
     return render_template("view_recipe_fs.html",
-                           recipe=recipe,
-    )
+                           recipe=recipe)
+
 
 @app.route('/multiple/<ids>', methods=['GET', 'POST'])
 def view_multiple(ids):
@@ -115,6 +120,7 @@ def view_multiple(ids):
         response += render_template("view_recipe.html", recipe=recipe, multiple=True)
     return response
 
+
 @app.route('/export/<ids>', methods=['GET', 'POST'])
 def export(ids):
     id_list = ids.split()
@@ -123,6 +129,7 @@ def export(ids):
     response.headers['Content-Type'] = 'text/plain'
     response.headers['Content-Disposition'] = 'attachment; filename=export.txt'
     return response
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -169,4 +176,4 @@ def edit_recipe(recipe_id=None):
         # print the form
         form = RecipeForm(obj=entry)
 
-    return render_template('edit.html', form=form, entry=entry)    
+    return render_template('edit.html', form=form, entry=entry)

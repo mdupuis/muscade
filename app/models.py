@@ -1,7 +1,11 @@
-from peewee import *
-from app import db
-from wtfpeewee.orm import model_form
 from datetime import date
+
+from peewee import Model
+from peewee import (CharField, DateTimeField, IntegerField, PrimaryKeyField,
+                    TextField)
+from wtfpeewee.orm import model_form
+
+from app import db
 
 categories = [(0, "Entrées"), (1, "Repas principaux"), (2, "Desserts"), (3, "Accompagnements"), (4, "Autres")]
 
@@ -34,10 +38,10 @@ class Recipe(BaseModel):
 RecipeForm = model_form(Recipe,
                         exclude=['add_date', 'update_date', 'usage_count'],
                         field_args={
-                            "name" : {"label" : "Nom"},
-                            "ingredients" : {"label" : "Ingrédients"},
-                            "preparation_time" : {"label" : "Temps de préparation"},
-                            "cooking_time" : {"label" : "Temps de cuisson"},
+                            "name": {"label": "Nom"},
+                            "ingredients": {"label": "Ingrédients"},
+                            "preparation_time": {"label": "Temps de préparation"},
+                            "cooking_time": {"label": "Temps de cuisson"},
                             "category": {"choices": categories,
                                          "label": "Catégorie"},
                             "rating": {"validators": [],
