@@ -3,11 +3,9 @@
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask import make_response
 
-from peewee import fn
-
 from . import app
 from .export import export_to_txt, import_from_txt
-from .models import categories, Recipe
+from .models import categories, Recipe, RecipeForm
 
 
 @app.context_processor
@@ -22,12 +20,11 @@ def page_not_found(e):
 
 @app.route('/')
 def home():
-    categories_recipes = Recipe.select(Recipe.category, fn.COUNT(Recipe.id).alias('count')).group_by(Recipe.category)
-    count_by_categories = {r.category: r.count for r in categories_recipes}
+    count_by_categories = Recipe.count_per_category()
 
-    source_recipes = Recipe.select(Recipe.source, fn.COUNT(Recipe.id).alias('count')).group_by(Recipe.source).order_by(fn.COUNT(Recipe.id).desc()).limit(5)
+    source_recipes = Recipe.count_per_source(limit=5)
 
-    best_recipes = Recipe.select().order_by(Recipe.rating.desc()).limit(5)
+    best_recipes = Recipe.best_recipes(limit=5)
 
     return render_template("home.html",
                            title='Accueil',
