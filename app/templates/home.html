@@ -20,6 +20,7 @@
                 {% endfor %}
             </ul>
         </div>
+        {% if source_recipes.count() > 0 %}
         <div class="col-sm-4">
             <ul class="list-group">
                 <li class="list-group-item active"><h4 class="no-margin">Sources</h4></li>
@@ -30,6 +31,8 @@
                 {% endfor %}
             </ul>
         </div>
+        {% endif %}
+        {% if best_recipes.count() > 0 %}
         <div class="col-sm-4">
             <ul class="list-group">
                 <li class="list-group-item active"><h4 class="no-margin">Meilleures</h4></li>
@@ -40,6 +43,7 @@
                 {% endfor %}
             </ul>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

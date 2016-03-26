@@ -1,10 +1,11 @@
 # coding=utf-8
-from app.export import export_to_txt, import_from_txt
 from flask import render_template, request, flash, redirect, url_for, abort
-from app import app
-from flask import Response
 from flask import make_response
+
+from app.export import export_to_txt, import_from_txt
+from app import app
 from .models import *
+
 
 @app.context_processor
 def inject_categories():
@@ -20,7 +21,12 @@ def home():
     categories_recipes = Recipe.select(Recipe.category, fn.COUNT(Recipe.id).alias('count')).group_by(Recipe.category)
     count_by_categories = {r.category: r.count for r in categories_recipes}
 
-    source_recipes = Recipe.select(Recipe.source, fn.COUNT(Recipe.id).alias('count')).group_by(Recipe.source).order_by(fn.COUNT(Recipe.id).desc()).limit(5)
+    source_recipes = Recipe\
+        .select(Recipe.source, fn.COUNT(Recipe.id).alias('count'))\
+        .where(~(Recipe.source >> None))\
+        .group_by(Recipe.source)\
+        .order_by(fn.COUNT(Recipe.id).desc())\
+        .limit(5)
 
     best_recipes = Recipe.select().order_by(Recipe.rating.desc()).limit(5)
 
@@ -66,6 +72,7 @@ def by_source(name):
                            show_category=True,
                            recipes=recipes)
 
+
 @app.route('/search')
 def search():
     query = request.args.get('s')
@@ -106,6 +113,7 @@ def view_recipe_fs(recipe_id):
                            recipe=recipe,
     )
 
+
 @app.route('/multiple/<ids>', methods=['GET', 'POST'])
 def view_multiple(ids):
     id_list = ids.split()
@@ -115,6 +123,7 @@ def view_multiple(ids):
         response += render_template("view_recipe.html", recipe=recipe, multiple=True)
     return response
 
+
 @app.route('/export/<ids>', methods=['GET', 'POST'])
 def export(ids):
     id_list = ids.split()
@@ -123,6 +132,7 @@ def export(ids):
     response.headers['Content-Type'] = 'text/plain'
     response.headers['Content-Disposition'] = 'attachment; filename=export.txt'
     return response
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():

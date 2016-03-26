@@ -1,7 +1,9 @@
-from peewee import *
-from app import db
-from wtfpeewee.orm import model_form
 from datetime import date
+
+from peewee import *
+from wtfpeewee.orm import model_form
+
+from app import db
 
 categories = [(0, "Entrées"), (1, "Repas principaux"), (2, "Desserts"), (3, "Accompagnements"), (4, "Autres")]
 
@@ -17,11 +19,11 @@ class Recipe(BaseModel):
     category = IntegerField()
     ingredients = TextField()
     instructions = TextField()
-    source = CharField()
-    portion = IntegerField()
-    preparation_time = IntegerField()
-    cooking_time = IntegerField()
-    rating = IntegerField()
+    source = CharField(null=True)
+    portion = IntegerField(null=True)
+    preparation_time = IntegerField(null=True)
+    cooking_time = IntegerField(null=True)
+    rating = IntegerField(null=True)
     usage_count = IntegerField(default=0)
     add_date = DateTimeField(default=date.today())
     update_date = DateTimeField(default=date.today())
@@ -34,10 +36,10 @@ class Recipe(BaseModel):
 RecipeForm = model_form(Recipe,
                         exclude=['add_date', 'update_date', 'usage_count'],
                         field_args={
-                            "name" : {"label" : "Nom"},
-                            "ingredients" : {"label" : "Ingrédients"},
-                            "preparation_time" : {"label" : "Temps de préparation"},
-                            "cooking_time" : {"label" : "Temps de cuisson"},
+                            "name": {"label": "Nom"},
+                            "ingredients": {"label": "Ingrédients"},
+                            "preparation_time": {"label": "Temps de préparation"},
+                            "cooking_time": {"label": "Temps de cuisson"},
                             "category": {"choices": categories,
                                          "label": "Catégorie"},
                             "rating": {"validators": [],
