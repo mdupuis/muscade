@@ -38,11 +38,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 </head>
+<div class=" extra-top-padding"></div>
 {% block nav %}{% endblock %}
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 {% for category, message in messages %}
-<div class="alert alert-{{ category }} extra-top-padding">
+<div class="alert alert-{{ category }}">
     <a class="close" data-dismiss="alert">×</a>
     {{ message }}
 </div>
