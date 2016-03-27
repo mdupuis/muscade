@@ -143,15 +143,11 @@ def upload():
             recipes = import_from_txt(file)
             return render_template("list.html",
                                    title="Résultat de l'importation",
+                                   header_suffix="Résultat de l'importation",
                                    ids=" ".join([str(recipe.id) for recipe in recipes]),
                                    recipes=recipes)
     else:
-        return render_template("base_nav.html") + """<br/><br/><br/><br/>
-            <form action="/upload" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-"""
+        return render_template("import.html")
 
 
 @app.route('/<int:recipe_id>/edit/', methods=['GET', 'POST'])
