@@ -68,7 +68,7 @@
             <ul class="list-group ingredients">
                 <li class="list-group-item active"><h4 class="no-margin">Ingrédients</h4></li>
                 {% for ingredient in recipe.ingredients.split("\n") %}
-                <li class="list-group-item">{{ ingredient }}</li>
+                <li class="list-group-item togglable">{{ ingredient }}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -76,11 +76,17 @@
             <ol class="list-group steps">
                 <li class="list-group-item active"><h4 class="no-margin">Instructions</h4></li>
                 {% for instruction in recipe.instructions.split("\n") %}
-                <li class="list-group-item">{{ instruction }}</li>
+                <li class="list-group-item togglable">{{ instruction }}</li>
                 {% endfor %}
             </ol>
         </div>
     </div>
 </div>
+
+<script>
+    $('.togglable').on('click', function(e) {
+      $(this).toggleClass("done");
+    });
+</script>
 
 {% endblock %}
