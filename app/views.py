@@ -1,6 +1,8 @@
 # coding=utf-8
+import os
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask import make_response
+from flask import send_from_directory
 
 from app.export import export_to_txt, import_from_txt
 from app import app
@@ -14,6 +16,11 @@ def inject_categories():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'img/icons/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/')

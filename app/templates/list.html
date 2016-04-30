@@ -32,11 +32,13 @@
             {% if show_source %}<td>{{ recipe.source or "" }}</td> {% endif %}
             <td>
                 <span style="white-space: nowrap;">
+                {% if recipe.rating != None %}
                 {% for i in range(0, recipe.rating//2) %}
                     <span class="star-icon full">☆</span>
                 {% endfor %}
                 {% if recipe.rating % 2 %}
                     <span class="star-icon half">☆</span>
+                {% endif %}
                 {% endif %}
                 </span>
             </td>
