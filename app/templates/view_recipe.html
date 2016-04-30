@@ -25,7 +25,7 @@
         </div>
 
         <h1 style="float:left;">{{ recipe.name }}</h1>
-        {% if recipe.ratings != none %}
+        {% if recipe.ratings is defined %}
         <div style="padding-top:30px; white-space: nowrap;" class="stars">&nbsp;
         {% for i in range(0, recipe.rating//2) %}
         <span class="star-icon full">☆</span>
