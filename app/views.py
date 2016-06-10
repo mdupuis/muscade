@@ -1,7 +1,10 @@
 # coding=utf-8
 
+import os
+
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask import make_response
+from flask import send_from_directory
 
 from . import app
 from .export import export_to_txt, import_from_txt
@@ -16,6 +19,12 @@ def inject_categories():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'img/icons/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/')
@@ -108,6 +117,7 @@ def view_recipe_fs(recipe_id):
                            recipe=recipe)
 
 
+
 @app.route('/multiple/<ids>', methods=['GET', 'POST'])
 def view_multiple(ids):
     id_list = ids.split()
@@ -137,15 +147,11 @@ def upload():
             recipes = import_from_txt(file)
             return render_template("list.html",
                                    title="Résultat de l'importation",
+                                   header_suffix="Résultat de l'importation",
                                    ids=" ".join([str(recipe.id) for recipe in recipes]),
                                    recipes=recipes)
     else:
-        return render_template("base_nav.html") + """<br/><br/><br/><br/>
-            <form action="/upload" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-"""
+        return render_template("import.html")
 
 
 @app.route('/<int:recipe_id>/edit/', methods=['GET', 'POST'])

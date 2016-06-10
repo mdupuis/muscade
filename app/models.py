@@ -21,11 +21,11 @@ class Recipe(BaseModel):
     category = IntegerField()
     ingredients = TextField()
     instructions = TextField()
-    source = CharField()
-    portion = IntegerField()
-    preparation_time = IntegerField()
-    cooking_time = IntegerField()
-    rating = IntegerField()
+    source = CharField(null=True)
+    portion = IntegerField(null=True)
+    preparation_time = IntegerField(null=True)
+    cooking_time = IntegerField(null=True)
+    rating = IntegerField(null=True)
     usage_count = IntegerField(default=0)
     add_date = DateTimeField(default=date.today())
     update_date = DateTimeField(default=date.today())
@@ -49,6 +49,8 @@ class Recipe(BaseModel):
         per_source = cls.select(
             cls.source,
             fn.COUNT(cls.id).alias('count')
+        ).where(
+            ~(cls.source >> None)
         ).group_by(cls.source)
 
         per_source = per_source.order_by(

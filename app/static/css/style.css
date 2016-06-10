@@ -3,7 +3,13 @@
 }
 
 .page-header{
-    padding-top:10px;
+    padding-top:0px;
+    margin:0px 0 20px
+}
+
+.alert {
+    margin-left:10px;
+    margin-right:10px;
 }
 
 .no-margin {
@@ -17,6 +23,10 @@ table.table {
 /* Datatable custom css */
 div.dataTables_info {
     white-space: normal;
+}
+
+.done {
+    color: #DDD;
 }
 
 /* STARS */
